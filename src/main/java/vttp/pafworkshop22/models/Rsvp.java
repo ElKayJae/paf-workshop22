@@ -1,5 +1,6 @@
 package vttp.pafworkshop22.models;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -12,7 +13,7 @@ public class Rsvp {
     private String name;
     private String email;
     private String phone;
-    private Date confirmatioDate;
+    private Date confirmationDate;
     private String comments;
 
     public String getName() {
@@ -33,11 +34,18 @@ public class Rsvp {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    public Date getConfirmatioDate() {
-        return confirmatioDate;
+    public Date getConfirmationDate() {
+        return confirmationDate;
     }
-    public void setConfirmatioDate(Date confirmatioDate) {
-        this.confirmatioDate = confirmatioDate;
+    public void setConfirmationDate(Date confirmatioDate) {
+        this.confirmationDate = confirmatioDate;
+    }
+    public void setConfirmationDate(String confirmatioDate) {
+        try{
+            this.confirmationDate = new SimpleDateFormat("yyyy-MM-dd").parse(confirmatioDate);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     public String getComments() {
         return comments;
@@ -51,7 +59,7 @@ public class Rsvp {
         rsvp.setName(rs.getString("name"));
         rsvp.setEmail(rs.getString("email"));
         rsvp.setPhone(rs.getString("phone"));
-        rsvp.setConfirmatioDate(rs.getDate("confirmation_date"));
+        rsvp.setConfirmationDate(rs.getDate("confirmation_date"));
         rsvp.setComments(rs.getString("comments"));
 
         return rsvp;
@@ -62,7 +70,7 @@ public class Rsvp {
                                 .add("name", getName())
                                 .add("email", getEmail())
                                 .add("phone", getPhone())
-                                .add("confirmation_date", getConfirmatioDate().toString())
+                                .add("confirmation_date", getConfirmationDate().toString())
                                 .add("comments", getComments());
         return builder.build();
  
